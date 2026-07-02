@@ -1,0 +1,48 @@
+/* ─── Typography Tokens ──────────────────────────────────────────────────── */
+/* Three-Role Typography Law (Bible Ch.01, rev. 2026):
+     Display Domain (H1 only)      → Inter Black
+     Distinction Domain (H2 only)  → Source Serif 4 (serif accent face)
+     Execution Domain (everything else) → Instrument Sans
+   Roles must never blur — see Ch.01 §2 Domain Boundary Rule.            */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
+
+:root {
+  /* ── Font Families ─────────────────────────────────────────────────────── */
+  /* H1 Display Domain — heavy deliberate imprint */
+  --font-display: 'Inter', system-ui, sans-serif;
+  /* H2 Distinction Domain — premium contrast layer, never body/data */
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  /* H3–Body Execution Domain — open, premium geometric */
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+
+  /* ── Type Scale ────────────────────────────────────────────────────────── */
+  /* Module Title (H1): Inter Black — thick section pen */
+  --text-h1-size:     3rem;        /* 48px */
+  --text-h1-weight:   900;
+  --text-h1-tracking: -0.05em;
+  --text-h1-leading:  1.05;
+
+  /* Section Heading (H2): Source Serif 4 — Distinction Domain, never body/data */
+  --text-h2-size:     1.25rem;     /* 20px */
+  --text-h2-weight:   700;
+  --text-h2-tracking: -0.01em;
+
+  /* Sub-Label / Accent (H3): Instrument Sans SemiBold */
+  --text-h3-size:     0.875rem;    /* 14px */
+  --text-h3-weight:   600;
+  --text-h3-tracking: normal;
+
+  /* Primary Body / Data Grid: Instrument Sans Regular */
+  --text-body-size:   0.9375rem;   /* 15px */
+  --text-body-weight: 400;
+  --text-body-leading: 1.6;
+
+  /* ── Functional Labels (UPPERCASE case isolation) ───────────────────────── */
+  --text-label-size:    0.6875rem; /* 11px */
+  --text-label-weight:  600;
+  --text-label-tracking: 0.06em;  /* wide tracking for quick grouping */
+
+}
+/* Note: always apply font-variant-numeric: tabular-nums to metric values
+   (not a custom property — use the CSS property directly on numeric elements) */

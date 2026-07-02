@@ -1,0 +1,112 @@
+<!-- @dsCard group="Components" viewport="990x720" name="Overlay System" subtitle="Drawer · Modal · Popover · Bottom Sheet (Bible Ch.16)" -->
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:16px;background:var(--canvas);font-family:var(--font-body)}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const NS = window.AbhishekSikkaPersonalOSDesignSystem_0177da;
+if (!NS) {
+  document.getElementById('root').innerHTML = '<div style="padding:40px;font-family:system-ui;color:#6b7280;font-size:14px;">Bundle compiling — reload after build completes.</div>';
+} else {
+  const { FlyoverPanel, Modal, Popover, PopoverItem, BottomSheet, Button, Input, MetricCard } = NS;
+
+  function Label({ children }) {
+    return <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 8 }}>{children}</div>;
+  }
+  function Stage({ children }) {
+    return <div style={{ position: 'relative', height: 320, borderRadius: 12, background: 'var(--canvas)', border: '1px solid var(--border-hairline)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{children}</div>;
+  }
+
+  function EditIco() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>; }
+  function TrashIco() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>; }
+
+  function Demo() {
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const [popOpen, setPopOpen] = React.useState(false);
+    const [sheetOpen, setSheetOpen] = React.useState(false);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+          <div>
+            <Label>Drawer — add flow (400px)</Label>
+            <div style={{ position: 'relative', height: 320, borderRadius: 12, background: 'var(--canvas)', border: '1px solid var(--border-hairline)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 460 }}>
+              <Button onClick={() => setDrawerOpen(true)}>Add Transaction</Button>
+              <FlyoverPanel open={drawerOpen} onClose={() => setDrawerOpen(false)} title="Add Transaction">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <Input label="Amount" prefix="₹" placeholder="0" />
+                  <Input label="Category" placeholder="Groceries" />
+                </div>
+              </FlyoverPanel>
+            </div>
+          </div>
+
+          <div>
+            <Label>Bottom Sheet — mobile short flow</Label>
+            <div style={{ position: 'relative', height: 320, borderRadius: 12, background: 'var(--canvas)', border: '1px solid var(--border-hairline)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 460 }}>
+              <Button variant="outline" onClick={() => setSheetOpen(true)}>Filter (mobile)</Button>
+              <BottomSheet
+                open={sheetOpen}
+                onClose={() => setSheetOpen(false)}
+                title="Filter by category"
+                maxHeight="70%"
+                footer={<Button onClick={() => setSheetOpen(false)}>Apply</Button>}
+              >
+                <div style={{ fontSize: 13, color: 'var(--text-secondary)', paddingBottom: 8 }}>Groceries · Transport · Rent · Utilities</div>
+              </BottomSheet>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+          <div>
+            <Label>Modal — edit / confirm (max 480px)</Label>
+            <Stage>
+              <Button variant="outline" onClick={() => setModalOpen(true)}>Delete Goal</Button>
+              <Modal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                title="Delete goal?"
+                subtitle="This cannot be undone."
+                tone="danger"
+                closeOnBackdrop={false}
+                footer={<>
+                  <Button variant="muted" size="sm" onClick={() => setModalOpen(false)}>Cancel</Button>
+                  <Button size="sm" style={{ background: 'var(--alert-text)' }} onClick={() => setModalOpen(false)}>Delete</Button>
+                </>}
+              >
+                Removing "Emergency Fund" will also delete its 6-month contribution history.
+              </Modal>
+            </Stage>
+          </div>
+
+          <div>
+            <Label>Popover — row actions</Label>
+            <Stage>
+              <div style={{ position: 'relative' }}>
+                <Button variant="outline" size="sm" onClick={() => setPopOpen(o => !o)}>Row Actions</Button>
+                <Popover open={popOpen} onClose={() => setPopOpen(false)} width={160}>
+                  <PopoverItem icon={<EditIco />} onClick={() => setPopOpen(false)}>Edit</PopoverItem>
+                  <PopoverItem icon={<TrashIco />} destructive onClick={() => setPopOpen(false)}>Delete</PopoverItem>
+                </Popover>
+              </div>
+            </Stage>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+}
+</script>
+</body></html>

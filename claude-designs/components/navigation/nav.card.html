@@ -1,0 +1,61 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Navigation" subtitle="Sidebar · FlyoverPanel" -->
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:16px;background:var(--canvas);font-family:var(--font-body)}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const NS = window.AbhishekSikkaPersonalOSDesignSystem_0177da;
+if (!NS) {
+  document.getElementById('root').innerHTML = '<div style="padding:40px;font-family:system-ui;color:#6b7280;font-size:14px;">Bundle compiling — reload after build completes.</div>';
+} else {
+  const { Sidebar, FlyoverPanel, Avatar, Badge, MetricCard } = NS;
+
+  function TrendIco() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>; }
+  function ActIco() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>; }
+  function GridIco() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>; }
+
+  const items = [
+    { id: 'dashboard', label: 'Dashboard Hub', icon: <GridIco /> },
+    { id: 'finance', label: 'Finance', icon: <TrendIco /> },
+    { id: 'health', label: 'Health', icon: <ActIco /> },
+  ];
+
+  function Demo() {
+    const [flyOpen, setFlyOpen] = React.useState(true);
+    return (
+      <div style={{ display: 'flex', gap: 16, height: 300 }}>
+        {/* Expanded sidebar */}
+        <div style={{ width: 220, height: '100%', position: 'relative' }}>
+          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6b7280', marginBottom: 6 }}>Expanded — 240px</div>
+          <Sidebar items={items} activeId="finance" footerContent={<Avatar name="Abhishek Sikka" size={28} status="synced" />} />
+        </div>
+        {/* Collapsed sidebar */}
+        <div style={{ width: 72, height: '100%', position: 'relative' }}>
+          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6b7280', marginBottom: 6 }}>Collapsed — 72px</div>
+          <Sidebar items={items} activeId="finance" collapsed={true} footerContent={<Avatar name="Abhishek Sikka" size={28} status="synced" />} />
+        </div>
+        {/* Flyover */}
+        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', borderRadius: 12, background: 'var(--canvas)', border: '1px solid var(--border-hairline)' }}>
+          <div style={{ padding: 16 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6b7280', marginBottom: 8 }}>FlyoverPanel · right-dock</div>
+          </div>
+          <FlyoverPanel open={flyOpen} onClose={() => setFlyOpen(false)} title="AAPL — Apple Inc.">
+            <MetricCard label="Current Price" value="$187.42" delta="+1.2%" deltaPositive={true} subtext="vs yesterday" badge={<Badge variant="green">Held</Badge>} />
+          </FlyoverPanel>
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+}
+</script>
+</body></html>

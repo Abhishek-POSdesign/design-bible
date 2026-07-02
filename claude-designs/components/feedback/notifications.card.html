@@ -1,0 +1,63 @@
+<!-- @dsCard group="Components" viewport="960x300" name="Notifications" subtitle="Toast · Banner · Inline Validation (Bible Ch.18)" -->
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:16px;background:var(--canvas);font-family:var(--font-body)}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const NS = window.AbhishekSikkaPersonalOSDesignSystem_0177da;
+if (!NS) {
+  document.getElementById('root').innerHTML = '<div style="padding:40px;font-family:system-ui;color:#6b7280;font-size:14px;">Bundle compiling — reload after build completes.</div>';
+} else {
+  const { Toast, Banner, Input } = NS;
+
+  function Label({ children }) {
+    return <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 10 }}>{children}</div>;
+  }
+
+  function Demo() {
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+        <div>
+          <Label>Toast — passive confirmation</Label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Toast variant="success" message="Transaction saved" onDismiss={() => {}} />
+            <Toast variant="error" message="Sync failed" action={{ label: 'Retry', onClick: () => {} }} onDismiss={() => {}} />
+          </div>
+        </div>
+
+        <div>
+          <Label>Banner — section alert</Label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Banner variant="warning" title="You're offline" message="Changes will sync later." />
+            <Banner variant="info" title="Read-only" message="Import completed with 2 warnings." action={{ label: 'View', onClick: () => {} }} />
+          </div>
+        </div>
+
+        <div>
+          <Label>Inline Validation — field error</Label>
+          <Input label="Amount" prefix="₹" value="" error="Amount is required" />
+        </div>
+
+        <div>
+          <Label>Inline Status — local outcome</Label>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Draft saved locally.</div>
+            <div style={{ fontSize: 13, color: 'var(--warning-text)' }}>3 rows failed to sync. Retry.</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+}
+</script>
+</body></html>

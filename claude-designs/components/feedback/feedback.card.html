@@ -1,0 +1,68 @@
+<!-- @dsCard group="Components" viewport="900x340" name="Empty States" subtitle="EmptyState — icon · message · primary action" -->
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:20px;background:var(--canvas);font-family:var(--font-body)}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const NS = window.AbhishekSikkaPersonalOSDesignSystem_0177da;
+if (!NS) {
+  document.getElementById('root').innerHTML = '<div style="padding:40px;font-family:system-ui;color:#6b7280;font-size:14px;">Bundle compiling — reload after build completes.</div>';
+} else {
+  const { EmptyState, Button } = NS;
+  const S = { stroke: 'currentColor', fill: 'none', strokeWidth: '1.5', strokeLinecap: 'round', strokeLinejoin: 'round' };
+  const ReceiptIco = () => <svg width="24" height="24" viewBox="0 0 24 24" {...S}><path d="M4 2v20l2-1.5L8 22l2-1.5L12 22l2-1.5L16 22l2-1.5L20 22V2l-2 1.5L16 2l-2 1.5L12 2l-2 1.5L8 2 6 3.5 4 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>;
+  const FolderIco = () => <svg width="24" height="24" viewBox="0 0 24 24" {...S}><path d="M4 20h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-8.5L9 4H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z"/></svg>;
+  const TargetIco = () => <svg width="24" height="24" viewBox="0 0 24 24" {...S}><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>;
+
+  function Section({ title, children }) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ fontFamily: 'var(--font-body)', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>{title}</div>
+        <div style={{ background: 'var(--card-surface)', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-card)' }}>{children}</div>
+      </div>
+    );
+  }
+
+  function Card() {
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <Section title="Transactions">
+          <EmptyState
+            icon={<ReceiptIco />}
+            title="No transactions this month"
+            subtitle="Add your first income or expense to start."
+            action={<Button variant="primary" size="sm">Add Transaction</Button>}
+          />
+        </Section>
+        <Section title="Goals">
+          <EmptyState
+            icon={<TargetIco />}
+            title="No goals yet"
+            subtitle="Define what you're saving for."
+            action={<Button variant="primary" size="sm">Add Goal</Button>}
+          />
+        </Section>
+        <Section title="Research">
+          <EmptyState
+            icon={<FolderIco />}
+            title="No research yet"
+            subtitle="Start documenting a business idea."
+            action={<Button variant="outline" size="sm">New Research</Button>}
+          />
+        </Section>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+}
+</script>
+</body></html>

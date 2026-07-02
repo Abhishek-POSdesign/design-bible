@@ -1,0 +1,119 @@
+/* ─── Color Tokens ───────────────────────────────────────────────────────── */
+/* Unified Base Canvas system (Bible Ch.02, rev. 2026) — the Dual Pillar
+   Linen/Concrete split is RETIRED (see 99-Archive §15). Every app and module
+   inherits one canvas. Category-based background theming is banned. */
+
+:root {
+  /* ── Canvas Background ──────────────────────────────────────────────────── */
+  --canvas:    #f5f4f1;  /* Unified Base Canvas — every module, no exceptions   */
+  --surface-0: var(--canvas); /* Bible Ch.14 canonical alias                   */
+
+  /* ── Surfaces ────────────────────────────────────────────────────────────── */
+  --card-surface: #ffffff;     /* All floating cards, Component A metric cards  */
+  --surface-1: var(--card-surface); /* Bible Ch.14 canonical alias              */
+
+  /* ── Hairline Borders ───────────────────────────────────────────────────── */
+  --border-hairline: #e2e0d8;  /* Unified warm hairline — all modules           */
+  --border: var(--border-hairline); /* Bible Ch.14 canonical alias              */
+  --border-strong: #cbd5e1;    /* Emphasis border — today markers, dividers     */
+
+  /* ── Text Ink (three-tier system, Bible Ch.01 §3 / Ch.14) ───────────────── */
+  --text-primary:   #121110;   /* Near-black — body copy, metrics, headings     */
+  --text-secondary: #4b5563;   /* Medium slate — supporting structural text     */
+  --text-muted:     #6b7280;   /* Timestamps, low-emphasis metadata (floor)     */
+
+  /* ── Button Surface Tokens ──────────────────────────────────────────────── */
+  --btn-primary-bg:   #1a1a1a; /* Dark slate (Light Mode)                       */
+  --btn-primary-text: #f5f4f1; /* Unified canvas tone (Light Mode)              */
+  --btn-muted-bg:     #ede9e3; /* Soft canvas tint                              */
+  --btn-muted-text:   #1a1a1a;
+
+  /* ── Status: Success ─────────────────────────────────────────────────────── */
+  --success-bg:   #e2f4e8;
+  --success-text: #1b5232;
+  --bg-success: var(--success-bg);     /* Bible Ch.14 canonical alias           */
+  --text-success: var(--success-text);
+
+  /* ── Status: Alert / Error ───────────────────────────────────────────────── */
+  --alert-bg:   #fbeceb;
+  --alert-text: #7f231c;
+  --bg-danger: var(--alert-bg);        /* Bible Ch.14 canonical alias           */
+  --text-danger: var(--alert-text);
+
+  /* ── Status: Warning (Bible Ch.18 §15) ──────────────────────────────────── */
+  --warning-bg:   #fdf0cd;
+  --warning-text: #7a4800;
+
+  /* ── Status: Info (Bible Ch.18 §15) ─────────────────────────────────────── */
+  --info-bg:   #e3f2fd;
+  --info-text: #0d47a1;
+
+  /* ── Active State Tokens (Localized Jewel Shift) ────────────────────────── */
+  --active-green-bg:   #e2f4e8;
+  --active-green-text: #113a24;
+  --active-blue-bg:    #e3f2fd;
+  --active-blue-text:  #0d47a1;
+
+  /* ── Accent (focus rings, links, selected states — Bible Ch.13/Ch.14) ──── */
+  --bg-accent:   var(--active-blue-bg);
+  --text-accent: var(--active-blue-text);
+  --fill-accent: #1a1a1a;
+  --on-accent:   #f5f4f1;
+
+  /* ── Component C Trophy / Visualization Palette (matte pastels) ─────────── */
+  --trophy-mint-bg:       #ccebda;
+  --trophy-mint-shadow:   rgba(27, 94, 32, 0.15);
+  --trophy-gold-bg:       #fdf0cd;
+  --trophy-gold-shadow:   rgba(230, 81, 0, 0.12);
+  --trophy-lavender-bg:       #dcd6f7;
+  --trophy-lavender-shadow:   rgba(76, 61, 139, 0.14);
+
+  /* ── Visualization Track Fallback ─────────────────────────────────────── */
+  --track-fallback: #eae7df;   /* Background ring for donut charts              */
+
+  /* ── PWA Shell ────────────────────────────────────────────────────────── */
+  --pwa-icon-bg: #1a1917;      /* Solid dark plate for maskable launcher icons  */
+}
+
+/* ── Dark Mode Overrides ──────────────────────────────────────────────────── */
+/* Bible Ch.14 uses [data-appearance]; the original Personal OS shell shipped
+   with [data-theme] — both are honored so neither implementation drifts. */
+[data-theme="dark"],
+[data-appearance="dark"] {
+  --canvas:        #121110;
+  --card-surface:  #1a1917;
+  --border-hairline: #2e2a26;
+  --border-strong:   #3e3a34;
+
+  --text-primary:   #f7f5f2;
+  --text-secondary: #d1d5db;
+  --text-muted:     #9ca3af;
+
+  --btn-primary-bg:   #f7f5f2;
+  --btn-primary-text: #121110;
+  --btn-muted-bg:     #2e2a26;
+  --btn-muted-text:   #f7f5f2;
+
+  --success-bg:   #1b3822;
+  --success-text: #a3e635;
+  --alert-bg:     #3f1d19;
+  --alert-text:   #fca5a5;
+  --warning-bg:   #3a2c0f;
+  --warning-text: #ebd07d;
+  --info-bg:      #0a2540;
+  --info-text:    #9ecaff;
+
+  --active-green-bg:   #0f3118;
+  --active-green-text: #a1e3bd;
+  --active-blue-bg:    #0a2540;
+  --active-blue-text:  #9ecaff;
+
+  --fill-accent: #f7f5f2;
+  --on-accent:   #121110;
+
+  --trophy-mint-bg:     #9adeb6;
+  --trophy-gold-bg:     #ebd07d;
+  --trophy-lavender-bg: #b3a7f2;
+
+  --track-fallback: #2e2a26;
+}

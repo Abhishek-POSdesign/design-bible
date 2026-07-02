@@ -1,0 +1,408 @@
+<!-- @dsCard group="UI Kits" viewport="1280x800" name="Personal OS Dashboard" subtitle="Finance & Health modules · sidebar · metrics · transactions · flyover" -->
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <rect width="200" height="200" fill="#f5f4f1"/>
+    <rect x="60" y="60" width="80" height="80" rx="12" fill="#ffffff" stroke="#e2e0d8" stroke-width="2"/>
+    <text x="100" y="108" font-family="Georgia, serif" font-size="34" font-weight="700" fill="#121110" text-anchor="middle">AS</text>
+  </svg>
+</template>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal OS — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden}
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--border-hairline);border-radius:2px}
+  button{font-family:inherit;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="root" style="height:100%"></div>
+<script type="text/babel">
+
+// ─── ICONS ───────────────────────────────────────────────────────────────────
+const S = {stroke:"currentColor",fill:"none",strokeWidth:"1.5",strokeLinecap:"round",strokeLinejoin:"round"};
+const GridIco  = ({s=20}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>;
+const TrendIco = ({s=20}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>;
+const ActIco   = ({s=20}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>;
+const BookIco  = ({s=20}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>;
+const PenIco   = ({s=20}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 9.5-9.5z"/></svg>;
+const ChevLIco = ({s=16}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><polyline points="15 18 9 12 15 6"/></svg>;
+const ChevRIco = ({s=16}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><polyline points="9 18 15 12 9 6"/></svg>;
+const XIco     = ({s=14}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+const SunIco   = ({s=15}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>;
+const MoonIco  = ({s=15}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+const FolderIco = ({s=20}) => <svg width={s} height={s} viewBox="0 0 24 24" {...S}><path d="M4 20h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-8.5L9 4H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1z"/></svg>;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const finMetrics = [
+  {label:'Net Worth',    value:'$284,500', delta:'+4.2%',  pos:true,  sub:'vs last month',     bv:'green',   bt:'On Track'},
+  {label:'Monthly Savings', value:'$8,200', delta:'+$1,100', pos:true, sub:'above target'},
+  {label:'Portfolio Return', value:'+18.3%', delta:'+3.1%', pos:true, sub:'YTD · All accounts'},
+  {label:'Cash Position', value:'$42,800', sub:'3.2 months runway', bv:'neutral', bt:'Stable'},
+];
+const healthMetrics = [
+  {label:'Resting HR',   value:'58',    unit:'BPM',  delta:'−3',   pos:true,  sub:'7-day rolling avg', bv:'green', bt:'Optimal'},
+  {label:'Sleep Score',  value:'84',    unit:'/100', delta:'+6',   pos:true,  sub:'Rolling week avg'},
+  {label:'Daily Steps',  value:'9,240', delta:'+820', pos:true,   sub:'Today vs 8K target',  bv:'green', bt:'Goal Hit'},
+  {label:'Body Weight',  value:'168',   unit:'lbs',  delta:'−2.4', pos:true,  sub:'vs 30 days ago'},
+];
+const transactions = [
+  {id:1, label:'S&P 500 ETF — VFIAX',  meta:'Jun 28 · Equities',  value:'+$4,200',  bv:'green',   bt:'Executed', type:'Buy Order',  account:'Vanguard Brokerage', category:'Equities',  notes:'Monthly DCA entry. Avg cost basis now $461.20. Target: $600/mo DCA.'},
+  {id:2, label:'Monthly Rent',          meta:'Jun 25 · Housing',   value:'−$2,850',  bv:'neutral', bt:'Recurring',type:'Auto Debit', account:'Chase Checking',    category:'Housing',   notes:'SF apartment. Lease runs through Dec 2024. Renewal under negotiation.'},
+  {id:3, label:'Apple Inc. — AAPL',    meta:'Jun 22 · Equities',  value:'+$1,880',  bv:'green',   bt:'Executed', type:'Buy Order',  account:'Robinhood',          category:'Equities',  notes:'10 shares purchased @ $188. Price target: $220. Stop loss at $165.'},
+  {id:4, label:'Health Insurance',      meta:'Jun 15 · Insurance', value:'−$420',    bv:'neutral', bt:'Recurring',type:'Auto Debit', account:'Chase Checking',    category:'Insurance', notes:'Blue Shield PPO. Employer contributes $600/mo. Annual deductible $1,500.'},
+  {id:5, label:'Consulting Retainer',   meta:'Jun 10 · Income',    value:'+$12,000', bv:'blue',    bt:'Received', type:'ACH Credit', account:'Chase Business',     category:'Income',    notes:'Q2 advisory retainer — Tech VC portfolio company. Renewed for Q3.'},
+];
+const healthActivities = [
+  {id:1, label:'Morning Run — Interval Training', meta:'Today · Cardio',      value:'8.2 km',  bv:'green',   bt:'Complete',   notes:'5 × 800m intervals. Avg pace: 4:48/km. HR zone 4–5. Personal distance best.'},
+  {id:2, label:'Weightlifting — Upper Body',       meta:'Yesterday · Strength', value:'62 min',  bv:'green',   bt:'Complete',   notes:'Bench 185lb × 5. OHP 135lb × 5. Volume PR this cycle. Deload next week.'},
+  {id:3, label:'Sleep Tracking',                   meta:'Jun 29 · Recovery',   value:'7h 42m',  bv:'blue',    bt:'Logged',     notes:'Deep sleep: 1h 44m. REM: 2h 10m. Score: 86/100. No alcohol — clean recovery.'},
+  {id:4, label:'Meditation — Box Breathing',       meta:'Jun 29 · Mindfulness', value:'20 min', bv:'mint',    bt:'Streak: 14d', notes:'14-day consecutive streak. Box breathing: 4-4-4-4. Using Wim Hof protocol.'},
+  {id:5, label:'Nutritional Log',                  meta:'Jun 28 · Nutrition',  value:'1,840 cal',bv:'neutral', bt:'Tracked',   notes:'Protein: 182g. Carbs: 210g. Fat: 68g. On macros. Creatine: 5g. Caffeine: 200mg.'},
+];
+const donutSegs = [
+  {value:75, color:'#ccebda', label:'Equities'},
+  {value:15, color:'#fdf0cd', label:'Bonds'},
+  {value:10, color:'#dcd6f7', label:'Cash'},
+];
+const navItems = [
+  {id:'dashboard', label:'Dashboard Hub', Icon:GridIco},
+  {id:'finance',   label:'Finance',       Icon:TrendIco},
+  {id:'health',    label:'Health',        Icon:ActIco},
+  {id:'research',  label:'Research',      Icon:BookIco},
+  {id:'writing',   label:'Writing',       Icon:PenIco},
+];
+
+// ─── PRIMITIVES ──────────────────────────────────────────────────────────────
+function Badge({text, variant='neutral'}) {
+  const cfg = {
+    success:{bg:'#e2f4e8',c:'#1b5232'}, alert:{bg:'#fbeceb',c:'#7f231c'},
+    green:{bg:'#e2f4e8',c:'#113a24'},   blue:{bg:'#e3f2fd',c:'#0d47a1'},
+    mint:{bg:'#ccebda',c:'#113a24'},    gold:{bg:'#fdf0cd',c:'#7a4800'},
+    lavender:{bg:'#dcd6f7',c:'#4a148c'},neutral:{bg:'var(--btn-muted-bg)',c:'var(--text-muted)'},
+  }[variant] || {bg:'var(--btn-muted-bg)',c:'var(--text-muted)'};
+  return <span style={{display:'inline-flex',alignItems:'center',fontFamily:'var(--font-body)',fontSize:'0.6875rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',padding:'3px 8px',borderRadius:6,backgroundColor:cfg.bg,color:cfg.c,whiteSpace:'nowrap',lineHeight:1.4}}>{text}</span>;
+}
+
+function Avatar({name='AS', status}) {
+  const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  const dot = {synced:'#113a24',syncing:'#0d47a1',offline:'#7f231c'}[status];
+  return (
+    <div style={{position:'relative',display:'inline-flex',flexShrink:0}}>
+      <div style={{width:32,height:32,borderRadius:'50%',backgroundColor:'var(--btn-muted-bg)',border:'1px solid var(--border-hairline)',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'var(--font-body)',fontSize:'0.75rem',fontWeight:600,color:'var(--text-primary)',userSelect:'none'}}>
+        {initials}
+      </div>
+      {dot && <span style={{position:'absolute',bottom:0,right:0,width:9,height:9,borderRadius:'50%',backgroundColor:dot,border:'1.5px solid var(--card-surface)'}}/>}
+    </div>
+  );
+}
+
+function DonutChart() {
+  const r=54, circ=2*Math.PI*r, tot=donutSegs.reduce((s,g)=>s+g.value,0);
+  let acc=0;
+  return (
+    <div style={{position:'relative',width:120,height:120,flexShrink:0}}>
+      <svg width="120" height="120" style={{display:'block',transform:'rotate(-90deg)'}}>
+        <circle cx="60" cy="60" r={r} fill="none" stroke="var(--track-fallback)" strokeWidth="12"/>
+        {donutSegs.map((seg,i)=>{
+          const frac=seg.value/tot, len=frac*circ, off=-(acc/tot)*circ; acc+=seg.value;
+          return <circle key={i} cx="60" cy="60" r={r} fill="none" stroke={seg.color} strokeWidth="12" strokeDasharray={`${len} ${circ-len}`} strokeDashoffset={off}/>;
+        })}
+      </svg>
+      <div style={{position:'absolute',inset:0,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2}}>
+        <span style={{fontFamily:'var(--font-display)',fontSize:'1.125rem',fontWeight:900,color:'var(--text-primary)',fontVariantNumeric:'tabular-nums',lineHeight:1}}>75%</span>
+        <span style={{fontFamily:'var(--font-body)',fontSize:'0.5625rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-muted)'}}>Equity</span>
+      </div>
+    </div>
+  );
+}
+
+// ─── CARDS ───────────────────────────────────────────────────────────────────
+function MetricCard({label,value,unit,delta,pos,sub,bv,bt}) {
+  return (
+    <div style={{backgroundColor:'var(--card-surface)',borderRadius:'var(--radius)',boxShadow:'var(--shadow-card)',padding:'var(--space-xl)',display:'flex',flexDirection:'column',gap:'var(--space-sm)'}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <span style={{fontFamily:'var(--font-body)',fontSize:'0.6875rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-muted)'}}>{label}</span>
+        {bv && <Badge text={bt} variant={bv}/>}
+      </div>
+      <div style={{display:'flex',alignItems:'baseline',gap:4}}>
+        <span style={{fontFamily:'var(--font-display)',fontSize:'2rem',fontWeight:900,letterSpacing:'-0.03em',lineHeight:1.05,color:'var(--text-primary)',fontVariantNumeric:'tabular-nums'}}>{value}</span>
+        {unit && <span style={{fontFamily:'var(--font-body)',fontSize:'0.875rem',fontWeight:500,color:'var(--text-muted)'}}>{unit}</span>}
+      </div>
+      {(delta||sub) && (
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          {delta && <span style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',fontWeight:600,color:pos?'#113a24':'#7f231c',fontVariantNumeric:'tabular-nums'}}>{pos?'▲':'▼'} {delta}</span>}
+          {sub && <span style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',color:'var(--text-muted)'}}>{sub}</span>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TrophyCard({theme='mint',title,value,unit,description,progress}) {
+  const t = {
+    mint:    {bg:'var(--trophy-mint-bg)',    sh:'0 8px 24px -4px var(--trophy-mint-shadow)'},
+    gold:    {bg:'var(--trophy-gold-bg)',    sh:'0 8px 24px -4px var(--trophy-gold-shadow)'},
+    lavender:{bg:'var(--trophy-lavender-bg)',sh:'0 8px 24px -4px var(--trophy-lavender-shadow)'},
+  }[theme];
+  return (
+    <div style={{backgroundColor:t.bg,boxShadow:t.sh,borderRadius:'var(--radius)',padding:'var(--space-2xl)',display:'flex',flexDirection:'column',gap:'var(--space-md)'}}>
+      <span style={{fontFamily:'var(--font-body)',fontSize:'0.6875rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-primary)',opacity:0.55}}>{title}</span>
+      <div style={{display:'flex',alignItems:'baseline',gap:4}}>
+        <span style={{fontFamily:'var(--font-display)',fontSize:'2.5rem',fontWeight:900,letterSpacing:'-0.04em',lineHeight:1.05,color:'var(--text-primary)',fontVariantNumeric:'tabular-nums'}}>{value}</span>
+        {unit && <span style={{fontFamily:'var(--font-body)',fontSize:'1rem',fontWeight:600,color:'var(--text-primary)',opacity:0.6}}>{unit}</span>}
+      </div>
+      {description && <p style={{fontFamily:'var(--font-body)',fontSize:'0.875rem',color:'var(--text-primary)',opacity:0.6,margin:0,lineHeight:1.5}}>{description}</p>}
+      {progress!=null && (
+        <div style={{height:4,borderRadius:2,backgroundColor:'rgba(0,0,0,0.1)',overflow:'hidden',marginTop:4}}>
+          <div style={{height:'100%',width:`${Math.min(100,progress)}%`,backgroundColor:'var(--text-primary)',opacity:0.35,borderRadius:2}}/>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── DATA ROW ────────────────────────────────────────────────────────────────
+function DataRow({label,meta,value,bv,bt,onClick}) {
+  const [hov,setHov] = React.useState(false);
+  return (
+    <div onClick={onClick} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 16px',borderBottom:'1px solid var(--border-hairline)',backgroundColor:hov&&onClick?'rgba(0,0,0,0.018)':'transparent',cursor:onClick?'pointer':'default',transition:'background-color 100ms ease'}}>
+      <div style={{display:'flex',alignItems:'center',gap:8,minWidth:0}}>
+        <span style={{fontFamily:'var(--font-body)',fontSize:'0.9375rem',color:'var(--text-primary)',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{label}</span>
+        {meta && <span style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',color:'var(--text-muted)',whiteSpace:'nowrap',flexShrink:0}}>{meta}</span>}
+      </div>
+      <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0,marginLeft:12}}>
+        {bv && <Badge text={bt} variant={bv}/>}
+        {value && <span style={{fontFamily:'var(--font-body)',fontSize:'0.9375rem',fontWeight:500,color:'var(--text-primary)',fontVariantNumeric:'tabular-nums'}}>{value}</span>}
+      </div>
+    </div>
+  );
+}
+
+// ─── EMPTY STATE ─────────────────────────────────────────────────────────────
+function EmptyState({icon,title,subtitle}) {
+  return (
+    <div style={{display:'flex',flexDirection:'column',alignItems:'center',textAlign:'center',padding:'40px 24px',color:'var(--text-secondary)'}}>
+      <div style={{width:48,height:48,marginBottom:16,display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-muted)'}}>{icon}</div>
+      {title && <h3 style={{fontFamily:'var(--font-body)',fontSize:'1rem',fontWeight:700,color:'var(--text-primary)',margin:'0 0 8px'}}>{title}</h3>}
+      {subtitle && <p style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',color:'var(--text-secondary)',maxWidth:'28ch',lineHeight:1.5,margin:0}}>{subtitle}</p>}
+    </div>
+  );
+}
+
+// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+function Sidebar({collapsed,onToggle,module,onModule}) {
+  const w = collapsed ? 72 : 240;
+  return (
+    <nav style={{width:w,minWidth:w,height:'100vh',backgroundColor:'var(--card-surface)',borderRight:'1px solid var(--border-hairline)',display:'flex',flexDirection:'column',overflow:'hidden',transition:'width 280ms cubic-bezier(0.25,1,0.5,1),min-width 280ms cubic-bezier(0.25,1,0.5,1)',flexShrink:0,position:'relative'}}>
+      <div style={{padding:collapsed?'18px 0':'18px 20px',display:'flex',alignItems:'center',gap:8,justifyContent:collapsed?'center':'flex-start',borderBottom:'1px solid var(--border-hairline)',minHeight:64}}>
+        <div style={{width:32,height:32,borderRadius:8,backgroundColor:'var(--pwa-icon-bg)',display:'flex',alignItems:'center',justifyContent:'center',color:'#f7f5f2',fontFamily:'var(--font-display)',fontWeight:900,fontSize:'0.8125rem',letterSpacing:'-0.02em',flexShrink:0}}>AS</div>
+        {!collapsed && (
+          <div style={{overflow:'hidden'}}>
+            <div style={{fontFamily:'var(--font-display)',fontWeight:900,fontSize:'0.9375rem',letterSpacing:'-0.03em',color:'var(--text-primary)',lineHeight:1.1,whiteSpace:'nowrap'}}>Abhishek Sikka</div>
+            <div style={{fontFamily:'var(--font-body)',fontSize:'0.6875rem',color:'var(--text-muted)',whiteSpace:'nowrap',marginTop:2}}>Personal OS</div>
+          </div>
+        )}
+      </div>
+      <div style={{flex:1,overflowY:'auto',padding:'8px 0'}}>
+        {navItems.map(({id,label,Icon}) => {
+          const active = id === module;
+          return (
+            <div key={id} onClick={()=>onModule(id)}
+              style={{display:'flex',alignItems:'center',gap:8,padding:collapsed?'10px 0':'10px 20px',justifyContent:collapsed?'center':'flex-start',cursor:'pointer',backgroundColor:active?'rgba(0,0,0,0.045)':'transparent',borderLeft:active?'2px solid var(--text-primary)':'2px solid transparent',transition:'background-color 100ms ease'}}>
+              <span style={{display:'flex',alignItems:'center',color:active?'var(--text-primary)':'var(--text-muted)',flexShrink:0}}><Icon/></span>
+              {!collapsed && <span style={{fontFamily:'var(--font-body)',fontSize:'0.9375rem',fontWeight:active?600:400,color:active?'var(--text-primary)':'var(--text-muted)',whiteSpace:'nowrap'}}>{label}</span>}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{padding:collapsed?'12px 0':'12px 20px',borderTop:'1px solid var(--border-hairline)',display:'flex',justifyContent:collapsed?'center':'space-between',alignItems:'center'}}>
+        <Avatar name="Abhishek Sikka" status="synced"/>
+        {!collapsed && <span style={{fontFamily:'var(--font-body)',fontSize:'0.75rem',color:'var(--text-muted)'}}>Synced</span>}
+      </div>
+      <button onClick={onToggle} style={{position:'absolute',top:20,right:-12,width:24,height:24,borderRadius:'50%',backgroundColor:'var(--card-surface)',border:'1px solid var(--border-hairline)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-muted)',zIndex:10,padding:0}}>
+        {collapsed ? <ChevRIco/> : <ChevLIco/>}
+      </button>
+    </nav>
+  );
+}
+
+// ─── FLYOVER PANEL ───────────────────────────────────────────────────────────
+function FlyoverPanel({item,onClose}) {
+  if (!item) return null;
+  const details = item.type
+    ? [['Type',item.type],['Account',item.account],['Category',item.category]]
+    : [['Date',item.meta?.split(' · ')[0]],['Category',item.meta?.split(' · ')[1]],['Logged',item.value]];
+  return (
+    <>
+      <div onClick={onClose} style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.14)',zIndex:999}}/>
+      <div style={{position:'absolute',top:0,bottom:0,right:0,width:360,backgroundColor:'var(--card-surface)',borderLeft:'1px solid var(--border-hairline)',zIndex:1000,display:'flex',flexDirection:'column',overflow:'hidden',transition:'right 175ms cubic-bezier(0.16,1,0.3,1)'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',padding:'16px 24px',borderBottom:'1px solid var(--border-hairline)',flexShrink:0}}>
+          <div>
+            <div style={{fontFamily:'var(--font-body)',fontSize:'0.875rem',fontWeight:600,color:'var(--text-primary)',letterSpacing:'-0.01em'}}>{item.label}</div>
+            <div style={{fontFamily:'var(--font-body)',fontSize:'0.75rem',color:'var(--text-muted)',marginTop:2}}>{item.meta}</div>
+          </div>
+          <button onClick={onClose} style={{display:'flex',alignItems:'center',justifyContent:'center',width:28,height:28,background:'none',border:'1px solid var(--border-hairline)',borderRadius:6,cursor:'pointer',color:'var(--text-muted)',padding:0,flexShrink:0,marginLeft:8}}>
+            <XIco/>
+          </button>
+        </div>
+        <div style={{flex:1,overflowY:'auto',padding:24}}>
+          <div style={{backgroundColor:'var(--canvas)',borderRadius:'var(--radius)',padding:16,marginBottom:16,display:'flex',alignItems:'baseline',gap:10}}>
+            <span style={{fontFamily:'var(--font-display)',fontSize:'2rem',fontWeight:900,letterSpacing:'-0.03em',color:'var(--text-primary)',fontVariantNumeric:'tabular-nums'}}>{item.value}</span>
+            {item.bv && <Badge text={item.bt} variant={item.bv}/>}
+          </div>
+          <div style={{borderRadius:'var(--radius)',overflow:'hidden',border:'1px solid var(--border-hairline)',marginBottom:16}}>
+            {details.filter(([,v])=>v).map(([k,v])=>(
+              <div key={k} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 16px',borderBottom:'1px solid var(--border-hairline)'}}>
+                <span style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',color:'var(--text-muted)'}}>{k}</span>
+                <span style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',fontWeight:500,color:'var(--text-primary)'}}>{v}</span>
+              </div>
+            ))}
+          </div>
+          {item.notes && (
+            <div>
+              <div style={{fontFamily:'var(--font-body)',fontSize:'0.6875rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-muted)',marginBottom:8}}>Notes</div>
+              <p style={{fontFamily:'var(--font-body)',fontSize:'0.875rem',color:'var(--text-primary)',lineHeight:1.6,margin:0}}>{item.notes}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ─── MODULE VIEWS ────────────────────────────────────────────────────────────
+function FinanceView({onRowClick}) {
+  return (
+    <div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,marginBottom:24}}>
+        {finMetrics.map((m,i) => <MetricCard key={i} {...m}/>)}
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'260px 1fr',gap:16,marginBottom:24}}>
+        <div style={{backgroundColor:'var(--card-surface)',borderRadius:'var(--radius)',boxShadow:'var(--shadow-card)',padding:'var(--space-xl)',display:'flex',flexDirection:'column',gap:16}}>
+          <span style={{fontFamily:'var(--font-body)',fontSize:'0.6875rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-muted)'}}>Allocation</span>
+          <div style={{display:'flex',alignItems:'center',gap:16}}>
+            <DonutChart/>
+            <div style={{display:'flex',flexDirection:'column',gap:8,flex:1}}>
+              {donutSegs.map((seg,i) => (
+                <div key={i} style={{display:'flex',alignItems:'center',gap:6}}>
+                  <div style={{width:8,height:8,borderRadius:2,backgroundColor:seg.color,flexShrink:0}}/>
+                  <span style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',color:'var(--text-primary)',flex:1}}>{seg.label}</span>
+                  <span style={{fontFamily:'var(--font-body)',fontSize:'0.8125rem',fontWeight:600,color:'var(--text-muted)',fontVariantNumeric:'tabular-nums'}}>{seg.value}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div style={{backgroundColor:'var(--card-surface)',borderRadius:'var(--radius)',boxShadow:'var(--shadow-card)',overflow:'hidden'}}>
+          <div style={{padding:'14px 16px 12px',borderBottom:'1px solid var(--border-hairline)'}}>
+            <span style={{fontFamily:'var(--font-body)',fontSize:'0.6875rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-muted)'}}>Recent Transactions</span>
+          </div>
+          {transactions.map((t,i) => <DataRow key={i} label={t.label} meta={t.meta} value={t.value} bv={t.bv} bt={t.bt} onClick={()=>onRowClick(t)}/>)}
+        </div>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+        <TrophyCard theme="gold" title="Net Worth Goal" value="$284K" unit="/ $350K" description="Capital accumulation target — Q4 2024. On pace with current monthly savings rate." progress={81}/>
+        <TrophyCard theme="mint" title="Investment Streak" value="18" unit="months" description="Consecutive months hitting DCA target across all brokerage and retirement accounts." progress={100}/>
+      </div>
+    </div>
+  );
+}
+
+function HealthView({onRowClick}) {
+  return (
+    <div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,marginBottom:24}}>
+        {healthMetrics.map((m,i) => <MetricCard key={i} {...m}/>)}
+      </div>
+      <div style={{backgroundColor:'var(--card-surface)',borderRadius:'var(--radius)',boxShadow:'var(--shadow-card)',overflow:'hidden',marginBottom:24}}>
+        <div style={{padding:'14px 16px 12px',borderBottom:'1px solid var(--border-hairline)'}}>
+          <span style={{fontFamily:'var(--font-body)',fontSize:'0.6875rem',fontWeight:600,letterSpacing:'0.06em',textTransform:'uppercase',color:'var(--text-muted)'}}>Activity Log</span>
+        </div>
+        {healthActivities.map((a,i) => <DataRow key={i} label={a.label} meta={a.meta} value={a.value} bv={a.bv} bt={a.bt} onClick={()=>onRowClick(a)}/>)}
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+        <TrophyCard theme="mint" title="Workout Streak" value="47" unit="days" description="Consecutive days with logged physical activity. Current personal best — previous was 31 days." progress={78}/>
+        <TrophyCard theme="lavender" title="Meditation Streak" value="14" unit="days" description="Daily mindfulness sessions: box breathing + Wim Hof. Building toward 30-day milestone." progress={47}/>
+      </div>
+    </div>
+  );
+}
+
+// ─── APP ─────────────────────────────────────────────────────────────────────
+function App() {
+  const [collapsed, setCollapsed] = React.useState(false);
+  const [module,    setModule]    = React.useState('finance');
+  const [flyover,   setFlyover]   = React.useState(null);
+  const [dark,      setDark]      = React.useState(false);
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-appearance', dark ? 'dark' : 'light');
+  }, [dark]);
+
+  // Expose navigation hooks for programmatic control (PPTX export, testing)
+  React.useEffect(() => {
+    window.__pos = { mod: setModule, fly: setFlyover };
+    return () => { delete window.__pos; };
+  }, []);
+
+  const titles   = {finance:'Finance', health:'Health', research:'Research', writing:'Writing', dashboard:'Dashboard'};
+  const subtitles = {finance:'Q2 2024 · Last synced just now', health:'Jun 30, 2026 · Active day', research:'Reading queue & notes', writing:'Drafts & published', dashboard:'Overview'};
+
+  return (
+    <div style={{display:'flex',height:'100vh',overflow:'hidden',backgroundColor:'var(--canvas)'}}>
+      <Sidebar collapsed={collapsed} onToggle={()=>setCollapsed(c=>!c)} module={module} onModule={m=>{setModule(m);setFlyover(null);}}/>
+      <div style={{flex:1,overflow:'hidden',position:'relative',display:'flex',flexDirection:'column'}}>
+        {/* Page header */}
+        <div style={{padding:'32px 40px 20px',display:'flex',alignItems:'flex-end',justifyContent:'space-between',flexShrink:0}}>
+          <div>
+            <h1 style={{fontFamily:'var(--font-display)',fontWeight:900,fontSize:'3rem',letterSpacing:'-0.05em',lineHeight:1.05,color:'var(--text-primary)',margin:0}}>
+              {titles[module] || 'Dashboard'}
+            </h1>
+            <p style={{fontFamily:'var(--font-body)',fontSize:'0.9375rem',color:'var(--text-muted)',margin:'6px 0 0',lineHeight:1}}>
+              {subtitles[module]}
+            </p>
+          </div>
+          <button
+            onClick={()=>setDark(d=>!d)}
+            style={{display:'flex',alignItems:'center',gap:6,fontFamily:'var(--font-body)',fontSize:'0.875rem',fontWeight:500,color:'var(--text-muted)',backgroundColor:'var(--card-surface)',border:'1px solid var(--border-hairline)',borderRadius:'var(--radius)',padding:'8px 14px',transition:'transform 150ms cubic-bezier(0.16,1,0.3,1)'}}>
+            {dark ? <SunIco/> : <MoonIco/>}
+            {dark ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </div>
+        {/* Scrollable content */}
+        <div style={{flex:1,overflowY:'auto',padding:'4px 40px 40px'}}>
+          {module === 'finance' ? <FinanceView onRowClick={setFlyover}/> :
+           module === 'health'  ? <HealthView  onRowClick={setFlyover}/> : (
+            <EmptyState
+              icon={<FolderIco s={28}/>}
+              title={`No ${titles[module].toLowerCase()} yet`}
+              subtitle={`The ${titles[module]} module is on the 3-month consolidation roadmap.`}
+            />
+          )}
+        </div>
+        {/* Flyover */}
+        {flyover && <FlyoverPanel item={flyover} onClose={()=>setFlyover(null)}/>}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

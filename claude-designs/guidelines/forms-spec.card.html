@@ -1,0 +1,48 @@
+<!-- @dsCard group="Guidelines" viewport="900x360" name="Forms & Inputs" subtitle="Canonical input · amount field · custom date trigger · segmented toggle" -->
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:20px;background:var(--canvas);font-family:var(--font-body)}
+.lbl{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.grp{background:var(--card-surface);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:20px;display:flex;flex-direction:column;gap:8px}
+</style>
+</head><body>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+  <div>
+    <div class="lbl">Canonical Text Input</div>
+    <div class="grp">
+      <label style="font-size:10px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Task Title</label>
+      <div style="padding:12px 14px;border-radius:12px;border:1px solid var(--border-hairline);color:var(--text-muted);font-size:14px;">Renew domain…</div>
+      <label style="font-size:10px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-top:8px;">Focused</label>
+      <div style="padding:12px 14px;border-radius:12px;border:1px solid var(--text-accent);box-shadow:0 0 0 3px var(--bg-accent);color:var(--text-primary);font-size:14px;">Renew domain</div>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">Amount Field — ₹ Indian Format</div>
+    <div class="grp" style="align-items:center;">
+      <div style="display:flex;align-items:center;gap:8px;padding:16px 0;">
+        <span style="font-size:28px;font-weight:700;color:var(--text-muted);">₹</span>
+        <span style="font-family:var(--font-body);font-size:36px;font-weight:900;letter-spacing:-0.02em;color:var(--success-text);font-variant-numeric:tabular-nums;">12,34,560</span>
+      </div>
+      <div style="display:flex;gap:8px;width:100%;">
+        <div style="flex:1;text-align:center;padding:10px;border-radius:12px;border:1px solid var(--border-hairline);background:var(--success-bg);color:var(--success-text);font-size:13px;font-weight:600;">Income</div>
+        <div style="flex:1;text-align:center;padding:10px;border-radius:12px;border:1px solid var(--border-hairline);color:var(--text-primary);font-size:13px;font-weight:600;">Expense</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">Custom Date Trigger</div>
+    <div class="grp">
+      <label style="font-size:10px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Due Date</label>
+      <div style="position:relative;padding:12px 40px 12px 14px;border-radius:12px;border:1px solid var(--border-hairline);color:var(--text-primary);font-size:14px;">
+        02 Jul 2026
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Native &lt;input type="date"&gt; retired — custom popover only. Week starts Monday.</div>
+    </div>
+  </div>
+</div>
+<div style="margin-top:14px;font-size:11px;color:var(--text-muted);">Add → drawer (max 400px) · Edit → center modal (max 480px) · Inline edits → full width. Errors render below the field — never a toast.</div>
+</body></html>

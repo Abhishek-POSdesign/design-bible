@@ -1,0 +1,66 @@
+<!-- @dsCard group="Components" viewport="700x580" name="Data Components" subtitle="MetricCard · TrophyCard · DataRow · DonutChart" -->
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:20px;background:var(--canvas);font-family:var(--font-body)}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const NS = window.AbhishekSikkaPersonalOSDesignSystem_0177da;
+if (!NS) {
+  document.getElementById('root').innerHTML = '<div style="padding:40px;font-family:system-ui;color:#6b7280;font-size:14px;">Bundle compiling — reload after build completes.</div>';
+} else {
+  const { MetricCard, TrophyCard, DataRow, DonutChart, Badge } = NS;
+
+  function Card() {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* Metric Cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <MetricCard label="Net Worth" value="$284,500" delta="+4.2%" deltaPositive={true} subtext="vs last month" badge={<Badge variant="green">On Track</Badge>} />
+          <MetricCard label="Resting HR" value="58" unit="BPM" delta="−3" deltaPositive={true} subtext="7-day rolling avg" badge={<Badge variant="mint">Optimal</Badge>} />
+        </div>
+
+        {/* DonutChart + TrophyCards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 1fr', gap: 12, alignItems: 'start' }}>
+          <div style={{ backgroundColor: 'var(--card-surface)', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-card)', padding: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Allocation</span>
+            <DonutChart
+              size={110}
+              strokeWidth={12}
+              centerValue="75%"
+              centerLabel="Equity"
+              segments={[
+                { value: 75, color: '#ccebda' },
+                { value: 15, color: '#fdf0cd' },
+                { value: 10, color: '#dcd6f7' },
+              ]}
+            />
+          </div>
+          <TrophyCard theme="gold" title="Net Worth Goal" value="$284K" unit="/ $350K" description="Capital target — Q4 2024" progress={81} />
+          <TrophyCard theme="mint" title="Workout Streak" value="47" unit="days" description="Consecutive active days" progress={78} />
+        </div>
+
+        {/* Data rows */}
+        <div style={{ backgroundColor: 'var(--card-surface)', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-card)', overflow: 'hidden' }}>
+          <div style={{ padding: '12px 16px 10px', borderBottom: '1px solid var(--border-hairline)' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Recent Transactions</span>
+          </div>
+          <DataRow label="S&P 500 ETF — VFIAX" meta="Jun 28 · Equities" value="+$4,200" badge={<Badge variant="green">Executed</Badge>} onClick={() => {}} />
+          <DataRow label="Monthly Rent" meta="Jun 25 · Housing" value="−$2,850" badge={<Badge variant="neutral">Recurring</Badge>} onClick={() => {}} />
+          <DataRow label="Consulting Income" meta="Jun 10 · Income" value="+$12,000" badge={<Badge variant="blue">Received</Badge>} onClick={() => {}} />
+        </div>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+}
+</script>
+</body></html>

@@ -1,0 +1,30 @@
+/* ─── Shadows & Geometry Tokens ──────────────────────────────────────────── */
+
+:root {
+  /* ── Corner Geometry Law: all containers locked to 12px ──────────────── */
+  --radius:    12px;   /* Primary cards, buttons, all containers              */
+  --radius-sm:  8px;   /* Nav item hover/active background (Bible Ch.16 §6)  */
+  --radius-xs:  6px;   /* Inner badges, tags, micro-elements                 */
+
+  /* ── Option A Elevated Float Shadows (Light Mode) ─────────────────────── */
+  --shadow-card:
+    0 10px 25px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.8);
+  --shadow: var(--shadow-card); /* Bible Ch.14 canonical alias */
+
+  /* ── Interaction Transitions (Bible Ch.07 — Timing & Easing Rules) ────── */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --transition-hover:  transform 150ms var(--ease-premium), background-color 150ms ease, border-color 150ms ease, color 150ms ease; /* @kind other */
+  --transition-press:  transform 100ms var(--ease-premium); /* @kind other */
+  --transition-button: var(--transition-hover); /* @kind other */
+  --transition-reveal: all 200ms var(--ease-premium); /* @kind other */
+  --transition-panel: right 175ms var(--ease-premium); /* @kind other */
+  --transition-sidebar: width 280ms cubic-bezier(0.25, 1, 0.5, 1), padding 280ms cubic-bezier(0.25, 1, 0.5, 1); /* @kind other */
+}
+
+[data-theme="dark"],
+[data-appearance="dark"] {
+  --shadow-card:
+    0 20px 35px -10px rgba(0, 0, 0, 0.4),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.08);
+}

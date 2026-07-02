@@ -1,0 +1,81 @@
+<!-- @dsCard group="Components" viewport="700x480" name="Core Controls" subtitle="Button · Badge · Tag · Avatar · Input" -->
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:20px;background:var(--canvas);font-family:var(--font-body)}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const NS = window.AbhishekSikkaPersonalOSDesignSystem_0177da;
+if (!NS) {
+  document.getElementById('root').innerHTML = '<div style="padding:40px;font-family:system-ui;color:#6b7280;font-size:14px;">Bundle compiling — reload after build completes.</div>';
+} else {
+  const { Button, Badge, Tag, Avatar, Input } = NS;
+
+  function Section({ title, children }) {
+    return (
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontFamily: 'var(--font-body)', fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 10 }}>{title}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>{children}</div>
+      </div>
+    );
+  }
+
+  function Card() {
+    return (
+      <div>
+        <Section title="Buttons — Variants">
+          <Button variant="primary">Save Entry</Button>
+          <Button variant="muted">Cancel</Button>
+          <Button variant="outline">Export</Button>
+          <Button variant="primary" disabled>Syncing…</Button>
+        </Section>
+        <Section title="Buttons — Sizes">
+          <Button variant="primary" size="sm">Small</Button>
+          <Button variant="primary" size="md">Medium</Button>
+          <Button variant="primary" size="lg">Large</Button>
+          <Button variant="muted" size="sm">Muted SM</Button>
+          <Button variant="outline" size="sm">Outline SM</Button>
+        </Section>
+        <Section title="Badges — State Tokens">
+          <Badge variant="success">Success</Badge>
+          <Badge variant="alert">Alert</Badge>
+          <Badge variant="green">On Track</Badge>
+          <Badge variant="blue">Pending</Badge>
+          <Badge variant="mint">Wellness</Badge>
+          <Badge variant="gold">Capital</Badge>
+          <Badge variant="lavender">Knowledge</Badge>
+          <Badge variant="neutral">Stable</Badge>
+        </Section>
+        <Section title="Badges — Outline">
+          <Badge variant="green" outline>On Track</Badge>
+          <Badge variant="blue" outline>Pending</Badge>
+          <Badge variant="alert" outline>Overdue</Badge>
+        </Section>
+        <Section title="Tags · Avatar">
+          <Tag>Equities</Tag>
+          <Tag>Health</Tag>
+          <Tag onRemove={() => {}}>Removable ×</Tag>
+          <Avatar name="Abhishek Sikka" size={32} status="synced" />
+          <Avatar name="Abhishek Sikka" size={36} status="syncing" />
+          <Avatar name="Abhishek Sikka" size={40} />
+        </Section>
+        <Section title="Input">
+          <div style={{ width: 220 }}><Input label="Amount" placeholder="0.00" prefix="$" /></div>
+          <div style={{ width: 220 }}><Input label="Search" placeholder="Search transactions…" /></div>
+          <div style={{ width: 220 }}><Input label="Email" error="Invalid address" placeholder="you@email.com" /></div>
+        </Section>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+}
+</script>
+</body></html>

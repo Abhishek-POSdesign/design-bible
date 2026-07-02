@@ -1,0 +1,7 @@
+/* Abhishek Sikka Personal OS — root stylesheet entry point */
+/* All rules live in imported partials; this file is @import-only */
+
+@import "tokens/typography.css";
+@import "tokens/colors.css";
+@import "tokens/spacing.css";
+@import "tokens/shadows.css";

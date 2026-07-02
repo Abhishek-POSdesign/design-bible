@@ -1,0 +1,28 @@
+/* ─── Spacing Tokens ─────────────────────────────────────────────────────── */
+/* Mathematical Padding Token Engine — 9-step scale (Bible Ch.03, rev. 2026);
+   no arbitrary values. The xs…3xl names are the implementation-facing scale
+   used across every component; the numbered --space-1…9 names are the
+   Bible's canonical vocabulary and alias onto the exact same pixel values. */
+
+:root {
+  --space-xs:  4px;   /* Micro element margins, internal label gaps           */
+  --space-sm:  8px;   /* Inner row padding, list element spacing               */
+  --space-md:  12px;  /* Content gaps, control deck inner grids               */
+  --space-lg:  16px;  /* Component container margins, sub-headings            */
+  --space-mlg: 20px;  /* Medium breathing room, form row gaps                 */
+  --space-xl:  24px;  /* Main workspace padding, outer block separations      */
+  --space-2xl: 32px;  /* Component C Trophy Card inner cushion                */
+  --space-2xl-lg: 40px; /* Page section spacing, large empty-state gaps       */
+  --space-3xl: 48px;  /* Page-level section separation                        */
+
+  /* ── Bible canonical numbered aliases ─────────────────────────────────── */
+  --space-1: var(--space-xs);      /* 4px  */
+  --space-2: var(--space-sm);      /* 8px  */
+  --space-3: var(--space-md);      /* 12px */
+  --space-4: var(--space-lg);      /* 16px */
+  --space-5: var(--space-mlg);     /* 20px */
+  --space-6: var(--space-xl);      /* 24px */
+  --space-7: var(--space-2xl);     /* 32px */
+  --space-8: var(--space-2xl-lg);  /* 40px */
+  --space-9: var(--space-3xl);     /* 48px */
+}
