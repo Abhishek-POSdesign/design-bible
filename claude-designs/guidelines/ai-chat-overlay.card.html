@@ -1,0 +1,133 @@
+<!-- @dsCard group="Guidelines" viewport="900x520" name="AI Chat Overlay" subtitle="Persistent non-blocking panel · 480px width · Left-shift layout · Bubble tail anatomy" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body {
+    margin: 0;
+    padding: 24px;
+    background: #f5f4f1;
+    font-family: var(--font-body), sans-serif;
+    color: var(--text-primary);
+    overflow: hidden;
+  }
+  .preview-container {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+    height: 440px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius);
+    background: #ffffff;
+    overflow: hidden;
+    position: relative;
+  }
+  .preview-main {
+    padding: 20px;
+    overflow-y: auto;
+    transition: transform 300ms var(--ease-premium);
+  }
+  .preview-panel {
+    border-left: 1px solid var(--border-hairline);
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    z-index: 10;
+  }
+  .bubble-user {
+    margin-left: auto;
+    max-width: 88%;
+    background: var(--text-accent, #0d47a1);
+    color: #ffffff;
+    border-radius: 14px 14px 4px 14px;
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .bubble-assistant {
+    margin-right: auto;
+    max-width: 92%;
+    background: rgba(120, 120, 120, 0.08);
+    color: var(--text-primary);
+    border-radius: 14px 14px 14px 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .quick-chip {
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: var(--radius-xs);
+    background: rgba(13, 148, 136, 0.1);
+    color: #0d9488;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .header-caps {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="header-caps">Bible Chapter 19 — AI Chat Layer Mechanics</div>
+  <div class="preview-container">
+    <!-- Main Workspace (translated left if wide screen - simulated here) -->
+    <div class="preview-main">
+      <h2 style="font-family:'Source Serif 4', serif; font-size: 18px; margin-top:0; color:#0d9488;">Chapter 1: The Core Loop</h2>
+      <p style="font-size: 13px; line-height: 1.6; color: var(--text-secondary);">
+        This is your primary reading or workspace. When the AI Chat panel is opened on wide screens (>= 1536px), the body is assigned the <code>.ai-open</code> class, translating this main area leftwards by 240px. This shifts the overlap away from your reading eye without shrinking the container or changing line length.
+      </p>
+      <div style="margin-top: 20px; padding: 12px; border: 1px solid var(--border-hairline); border-radius: var(--radius-sm); background: #faf9f6;">
+        <span style="font-size: 11px; font-weight: 700; color: var(--text-secondary);">PRO TIP</span>
+        <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-secondary);">The chat overlay has no backdrop blocking. Try reading this text while interacting with the AI on the right.</p>
+      </div>
+    </div>
+
+    <!-- AI Panel -->
+    <div class="preview-panel">
+      <!-- Header -->
+      <div style="padding: 10px 14px; border-bottom: 1px solid var(--border-hairline); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size: 12px; font-weight: 700;">✨ AI Study Buddy</div>
+          <div style="font-size: 9px; color: var(--text-muted);">About: <b>The Core Loop</b></div>
+        </div>
+        <button style="border:1px solid var(--border-hairline); background:none; border-radius:4px; font-size:10px; padding:2px 6px; cursor:pointer;">✕</button>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="display:flex; gap:6px; padding:8px 12px; border-bottom: 1px solid var(--border-hairline);">
+        <button class="quick-chip">Explain simply</button>
+        <button class="quick-chip">Quiz me</button>
+      </div>
+
+      <!-- Message History -->
+      <div style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
+        <div class="bubble-user">Can you summarize the core feedback loop?</div>
+        <div class="bubble-assistant">Certainly. The core loop consists of actions, validation checkpoints, and reflective weekly reviews...</div>
+      </div>
+
+      <!-- Input Block -->
+      <div style="padding:10px; border-top:1px solid var(--border-hairline);">
+        <div style="display:flex; gap:6px;">
+          <input type="text" placeholder="Ask follow-up..." style="flex:1; border:1px solid var(--border-hairline); border-radius:6px; padding:6px; font-size:12px; outline:none;" />
+          <button style="background:var(--btn-primary-bg); color:var(--btn-primary-text); border:none; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:600;">Ask</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:6px; font-size:9px; color:var(--text-muted);">
+          <span>Provider: Ollama</span>
+          <span style="text-decoration:underline; cursor:pointer;">💾 Save answer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

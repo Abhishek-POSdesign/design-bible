@@ -14,9 +14,9 @@ The Personal OS is a PWA-deployed, multi-app ecosystem built on a strict "Simpli
 ## Sources
 
 This design system was built from:
-- **Design Bible:** [`Abhishek-POSdesign/POS-Design-Bible`](https://github.com/Abhishek-POSdesign/POS-Design-Bible) (19 Markdown chapters, synced July 2026)
-  - 00-Design-Principles.md through 15-Empty-States.md + 16-Overlay-System.md, 17-loading-states.md, 18-notifications.md + 99-Archive-Backfiles.md
-  - Covers: philosophy & governance, typography, colors, spacing, layout, tables, cards, interactions, visualizations, iconography, buttons, grid strategy, navigation, forms & inputs, dark mode, empty states, the overlay system (drawer/modal/popover/sheets), loading & skeleton states, notifications & toasts, and archived/rejected patterns
+- **Design Bible:** [`Abhishek-POSdesign/POS-Design-Bible`](https://github.com/Abhishek-POSdesign/POS-Design-Bible) (20 Markdown chapters, synced July 2026)
+  - 00-Design-Principles.md through 15-Empty-States.md + 16-Overlay-System.md, 17-loading-states.md, 18-notifications.md, 19-AI-Chat-Overlay.md + 99-Archive-Backfiles.md
+  - Covers: philosophy & governance, typography, colors, spacing, layout, tables, cards, interactions, visualizations, iconography, buttons, grid strategy, navigation, forms & inputs, dark mode, empty states, the overlay system (drawer/modal/popover/sheets), loading & skeleton states, notifications & toasts, AI chat layer mechanics, and archived/rejected patterns
 
 No Figma file or external codebase was provided. Design decisions are sourced entirely from the design bible above. This is a living sync — re-pull the repo and re-run this update whenever the bible changes.
 
@@ -134,6 +134,7 @@ Cards always surface on pure **white `#ffffff`** regardless of canvas. Text uses
 | Modal | `components/overlay/` | Center decision surface — edit, review, confirm, destructive (max 480px) |
 | Popover / PopoverItem | `components/overlay/` | Anchored dropdown — row actions, sort, filters, date trigger |
 | BottomSheet | `components/overlay/` | Mobile short-flow overlay — date select, quick filters |
+| AIChatOverlay | `components/overlay/` | Context-bound persistent non-blocking AI panel with content left-shift (Bible Ch.19) |
 | EmptyState | `components/feedback/` | Icon + message + primary action for zero-item views |
 | Skeleton / SkeletonGroup | `components/feedback/` | Structural loading placeholder mirroring final layout geometry |
 | Spinner | `components/feedback/` | Small localized activity indicator — button/row-level only |
