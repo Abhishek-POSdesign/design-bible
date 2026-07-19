@@ -1,117 +1,121 @@
-# Chapter 19 — AI Chat Overlay Design
-> Status: ✅ Approved | July 2026
-> Source alignment: 00-Design-Principles, 04-Layout, 07-Interactions, 16-Overlay-System, 18-Notifications
+# Chapter 19 — AI Chat Panel: Sidebar Design and Content Architecture
 
-## 1. Why This Chapter Exists
-
-Modern productivity systems benefit heavily from context-aware AI utilities. However, if an AI chat assistant behaves like a generic, blocking popup or an isolated screen, it breaks the core layout flows and interrupts reading. 
-
-The Personal OS (POS) requires a dedicated, non-blocking AI helper panel that can run side-by-side with your workspace, shift the page content elegantly on large screens, preserve existing viewport readability, and save insights directly to your local database without page reloads.
-
-This chapter defines the strict positioning, physics, responsiveness, and style guidelines for the POS AI Chat Overlay.
+*Updated July 2026 — Finance Manager v2.29*
 
 ---
 
-## 2. Philosophy of the AI Chat Layer
+## Overview
 
-The AI Study Buddy (and any future AI helper panel) is **collaborative, persistent, and non-blocking**.
+This chapter documents the design pattern for the AI assistant panel as built in Finance Manager. The panel takes the form of a **fixed embedded sidebar** — not a modal, not a drawer, not a full-screen overlay. It physically shifts application content rather than covering it.
 
-- **Non-blocking (No Backdrop Blur/Dimming):** Unlike drawers or modals, the AI Chat Overlay must NOT dim the page or trap focus. The user should be able to read a lesson, type in a note, click buttons in the workspace, and type in the AI chat panel simultaneously.
-- **Context-Bound:** The chat assistant should know exactly where the user is looking. If a user opens the chat from a specific topic, the panel binds to that topic ID. 
-- **Action-Led:** It must present contextual short-actions (e.g., "Explain it simply", "Quiz me", "Relate to prototypes") to minimize typing overhead.
-- **Output-Focused:** The assistant's output must be actionable. The interface must provide a one-click mechanism to save AI answers directly into the user's permanent Notes Vault.
+The core principle: the AI is a co-pilot, not an interruption. The user should be able to look at their transactions and ask the AI a question at the same time.
 
 ---
 
-## 3. Placement & Dimensions
+## Panel Positioning and Content Shifting
 
-The AI panel is a right-docked, full-height flyover.
+The AI panel is fixed to the right edge of the viewport, full viewport height. When closed, it is translated off-screen (`translateX(100%)`). When open, it slides into position.
 
-- **Width:** Locked at **480px** (on viewports ≥ 480px wide) or `92vw` (on smaller screens). 480px is the POS "extended" flyover width, providing enough text column space for multi-paragraph explanations and code snippets.
-- **Height:** `100vh` (full viewport height).
-- **Z-Index:** Set to `60` (above regular page layers, but below blocking system Modals which sit at `70+` to prevent stacking issues).
-- **Border:** A `1px solid var(--border-hairline)` left border anchors it visually to the right screen edge.
+**No backdrop.** There is no dimming overlay behind the panel. The user can see and interact with app content while the panel is open.
 
----
+**Content shifting, not content covering:**  
+On screens above 900px, the main app container receives `margin-right: 420px` when the panel opens. Content moves left to make room — it is never hidden behind the panel.
 
-## 4. Left-Shift Content Layout Rule
+The critical implementation detail: the `margin-right` must target the outermost `position: static` block element. On this app that is `#app`. Targeting flex items (`.content-area`, inner layout containers) does not work — flex items ignore `margin-right` because their sizing is controlled by the flex parent, not by margins.
 
-A common issue with right-docked side panels is that they overlap page content, forcing text columns to become cramped or unreadable. 
-
-To solve this without breaking the page's grid or squeezing standard line lengths:
-- **Below 1536px (Standard Screens):** Overlap is accepted. Since content columns are usually narrow and centered, the panel floats over the margins.
-- **At or Above 1536px (Wide Screens):** When the AI panel is opened, the main content container (`#main` or `#workspace`) must shift to the left by exactly **240px** (half the panel width) via a hardware-accelerated transform:
-  ```css
-  body.ai-open #main {
-    transform: translateX(-240px);
-    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  ```
-- **Line Length Preservation:** The page width and its `max-width` (e.g., `68ch` readability cap) must NOT change. The column is simply translated left, ensuring reading measures remain perfectly stable.
+**Mobile:** Content shifting is disabled below 900px. The panel covers the full viewport width.
 
 ---
 
-## 5. Visual Styling of Chat Messages
+## Panel Width
 
-Chat bubbles must follow the strict typography and color rules of the POS.
-
-### Casing & Fonts
-- **Sender Labels:** Banned. The tail shape and bubble color alone distinguish the user from the assistant.
-- **Body Text:** Executed entirely in `Instrument Sans` (`font-size: 14px`, `line-height: 1.6`).
-- **Headers inside Bubbles:** H2 and H3 styles inside AI responses are mapped down to small, bold inline text sizes to avoid breaking layout density.
-
-### Message Bubbles Design
-- **User Bubble:**
-  - **Background:** Accent Color (`#0d9488` in light mode, `#2dd4bf` in dark mode).
-  - **Text:** White (`#ffffff` in light mode, near-black `#0b1512` in dark mode).
-  - **Border Radius:** `14px 14px 4px 14px` (creates a small tail indicating the message originates from the right side).
-  - **Alignment:** Aligned to the right, `margin-left: auto`, max-width `88%`.
-- **Assistant Bubble:**
-  - **Background:** Subtle neutral gray/stone tint (`rgba(120, 120, 120, 0.08)`).
-  - **Text:** Primary Ink (`var(--text-primary)`).
-  - **Border Radius:** `14px 14px 14px 4px` (tail points to the left).
-  - **Alignment:** Aligned to the left, `margin-right: auto`, max-width `92%`.
-
-### Thinking Indicator
-When generating responses, a subtle, non-distracting animated loader is shown:
-- Three small inline dots using `currentColor` and an opacity pulse animation:
-  ```css
-  @keyframes aiPulse {
-    0%, 100% { opacity: 0.25; }
-    50% { opacity: 0.9; }
-  }
-  ```
-- No massive loading wheels, progress bars, or flashing text.
+420px on desktop. This is a deliberate number:
+- Wide enough to read multi-paragraph AI responses without awkward line wrapping
+- Narrow enough to leave usable app content visible on a 1280px screen (860px remaining)
+- The panel and the main content feel like peers, not one dominating the other
 
 ---
 
-## 6. Context & Header Actions
+## Header: One Row, Always
 
-The AI Panel Header must be a sticky `shrink-0` layer at the top containing:
-- Title: **✨ AI Study Buddy** (bold, 14px).
-- Context Badge: A dynamic caption indicating if the AI is bound to a topic (e.g. `About: Topic Title` or `General study help`).
-- Close Trigger: A flat `✕` button (`28px` square, border-radius `6px`) that removes the `open` class from the panel and the `ai-open` class from the body.
+The panel header is a single compact row. Never tabs, never mode toggles.
 
-Below the header, the chat area must immediately expose the quick actions row:
-- Flat, low-contrast buttons styled as `bg-accent/10 text-accent` with a snappy hover transition.
+```
+[Finn AI]   [● gemma4 · local]     [📓] [📊] [🗑] [⚙] [✕]
+```
 
----
+Left side: small title, then a **live status pill** showing the active model name and provider type ("local" or "cloud") plus a connectivity dot.
 
-## 7. Save to Vault Action
+Right side: icon-only action buttons, consistent sizing with the rest of the app's header icons.
 
-Insights generated by AI must not be ephemeral. Below the text entry area:
-- A contextual action link `💾 Save last answer` appears dynamically when a response is rendered.
-- Clicking this creates a new note in `hub.notes` with the topic ID automatically attached, inserting it as a `learn-log` or `ai` auto-generated note.
-- A quick success toast confirms: `"Saved to Vault"`.
+**Live status dot:**  
+On panel open, a non-blocking 3-second request hits the local AI endpoint. If the AI responds, the dot turns green. If it times out or errors, the dot stays grey. No blocking error — the user discovers the AI is offline when they send a message. The visual state is ambient information, not a gate.
 
 ---
 
-## 8. Triggers & FAB Physics
+## Message Bubbles
 
-The AI Panel is invoked via context buttons on cards or the global Floating Action Button (FAB).
+User messages: accent-color background, white text, right-aligned.  
+Assistant messages: neutral surface, left-aligned.
 
-- **FAB Position:** Fixed at `right: 18px` and `bottom: 24px` (above env safe-areas).
-- **Interactive Scale:**
-  - **Hover:** Snappy scale up (`transform: scale(1.06)`).
-  - **Press:** Deflect downward (`transform: scale(0.96)`).
-- **Open State:** The FAB is hidden when the AI Panel is fully open to reduce visual clutter.
+Position and color convey sender. No labels, no avatars, no timestamps on every bubble.
+
+Each assistant bubble has a **feedback row** beneath it with icon buttons:
+- Accept (✓) — marks the answer as useful for learning
+- Reject (✗) — marks it as not useful
+- Revise — lets the user correct the answer inline (no browser `prompt()`)
+- **Bookmark** — saves the Q&A to the CFO Notebook (see Chapter 22)
+
+The feedback row has low default opacity. It does not interrupt the visual flow of the conversation — it is discoverable but not prominent.
+
+---
+
+## Empty State: Chips Only
+
+When no chat history exists, show preset quick-action chips only. No description copy, no illustration, no "Getting started" header. The chips are the entire invitation to interact.
+
+Chips cover the most common entry points. Four maximum. Finance-specific only.
+
+---
+
+## Settings: Always in a Separate Modal
+
+AI settings open in a dedicated modal layered above the panel (`z-index: 1100`). Settings do **not** expand inside the panel (which would push messages out of view and make the panel feel unstable).
+
+The settings modal has two sections:
+1. **Connection** — provider selector, endpoint URL, model name, Test Connection button
+2. **Persona** — PIN-gated, 5-field form defining the AI's role and behavioral constraints
+
+Persona is PIN-protected because it defines the AI's identity. An accidental change silently alters every AI response.
+
+---
+
+## Panel-Within-Panel: The Notebook View
+
+The CFO Notebook is a secondary view that lives **inside** the AI panel. It does not open as a separate modal or navigate away.
+
+When the notebook opens:
+- The message list and input footer are hidden
+- The notebook panel slides into the same space
+- The panel header remains visible throughout
+
+This "panel swap" pattern keeps the notebook spatially bound to the AI. The user feels like they flipped a notepad open next to the chat — not like they navigated somewhere else.
+
+---
+
+## Design Principles Demonstrated
+
+**Co-presence, not interruption.**  
+The panel never dims or blocks the underlying app. A user can glance at their transactions while formulating a question to the AI. The AI is a tool in the room, not a room you enter.
+
+**Spatial permanence.**  
+The panel is always at the same position. Once a user learns where it is, it never surprises them. Panels that animate from different directions or appear in different contexts destroy spatial memory.
+
+**Offline-first visual state.**  
+The status dot makes connectivity visible at a glance, without any interaction required. The panel remains fully functional as a composer even while the AI is unreachable — the user types their question, and discovers the connectivity issue only when they need to, not before.
+
+**No modal within modal.**  
+Settings are a modal above the panel. The notebook is a view swap inside the panel. Neither creates stacking context conflicts or requires the user to close one thing before opening another.
+
+**Icon buttons, never labelled buttons, in the header.**  
+The header row is narrow. Labels at this scale would either truncate or crowd the row. The actions (report, trash, settings, close) are universal enough to be icon-only. Tooltip on hover for keyboard and discoverability.
